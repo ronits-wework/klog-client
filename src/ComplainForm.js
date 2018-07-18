@@ -13,10 +13,13 @@ class ComplainForm extends Component {
       uploadedFile: null
     };
 
+    this.fileInput = null;
+
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleFileSelected = this.handleFileSelected.bind(this);
     this.handleFileUpload = this.handleFileUpload.bind(this);
+    this.handleFileCancel = this.handleFileCancel.bind(this);
   }
 
   handleChange(event) {
@@ -24,32 +27,35 @@ class ComplainForm extends Component {
   }
 
   handleSubmit(event) {
-    const data = JSON.stringify(
-      {
-        name: '',
-        text: this.state.complaintText,
-        asset_url: 'https://s3.amazonaws.com/klog-complaint-images/' + this.state.uploadedFile.name
-      }
-    );
+    this.handleFileUpload()
+      .then(() => {
+        const data = JSON.stringify(
+          {
+            name: '',
+            text: this.state.complaintText,
+            asset_url: this.state.uploadedFile ? 'https://s3.amazonaws.com/klog-complaint-images/' + this.state.uploadedFile.name : ''
+          }
+        );
 
-    fetch("https://klog-staging.herokuapp.com/api/v1/complaint",
-      {
-        method: "POST",
-        body: data,
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-      }).then(result => {
-        this.setState({
-          complaintText: '',
-          isAnonymous: true,
-          uploadedFile: null
-        });
-        alert('We feel your pain!');
-      }
-    );
-
+        fetch("https://klog-staging.herokuapp.com/api/v1/complaint",
+          {
+            method: "POST",
+            body: data,
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+          }).then(result => {
+            this.setState({
+              complaintText: '',
+              isAnonymous: true,
+              uploadedFile: null
+            });
+            this.fileInput.value = '';
+            alert('Thanks for complaining!');
+          }
+        );
+      });
 
   }
 
@@ -58,37 +64,46 @@ class ComplainForm extends Component {
   }
 
   handleFileUpload() {
-    if (this.state.uploadedFile == null) {
-      return;
-    }
-    const data = JSON.stringify({filename: this.state.uploadedFile.name});
-    const file = this.state.uploadedFile;
+    const state = this.state;
+    return new Promise(function (resolve, reject) {
+      const file = state.uploadedFile;
+      if (file == null) {
+        resolve();
+      }
+      const data = JSON.stringify({filename: state.uploadedFile.name});
 
-    fetch("https://klog-staging.herokuapp.com/api/v1/complaint/generate_upload_url",
-      {
-        method: "POST",
-        body: data,
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-      })
-      .then((result) => result.json())
-      .then(result => {
-        return fetch(result.uploadUrl,
-          {
-            method: "PUT",
-            headers: {
-              'Content-Type': file.type
-            },
-            body: file
-          }
-        );
+      fetch("https://klog-staging.herokuapp.com/api/v1/complaint/generate_upload_url",
+        {
+          method: "POST",
+          body: data,
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+        })
+        .then((result) => result.json())
+        .then(result => {
+          return fetch(result.uploadUrl,
+            {
+              method: "PUT",
+              headers: {
+                'Content-Type': file.type
+              },
+              body: file
+            }
+          );
 
-      })
-      .then(result => {
-        alert('File was uploaded successfully!');
-      });
+        })
+        .then(result => {
+          resolve();
+        });
+    });
+
+  }
+
+  handleFileCancel() {
+    this.fileInput.value = '';
+    this.setState({uploadedFile: null});
   }
 
   render() {
@@ -101,8 +116,8 @@ class ComplainForm extends Component {
           placeholder={"Complain to me!"}
         />
         <div className={"file-upload"}>
-          <input type={"file"} onChange={this.handleFileSelected}/>
-          <button className={"file-upload-btn button"} onClick={this.handleFileUpload}>Upload</button>
+          <input type={"file"} onChange={this.handleFileSelected} ref={ref => this.fileInput = ref}/>
+          <span className={"file-upload-x-icon"} onClick={this.handleFileCancel}>X</span>
         </div>
         <div className={"submit-line"}>
           <label className={"anonymous-label"}>
