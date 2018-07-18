@@ -33,12 +33,36 @@ class ComplainForm extends Component {
   }
 
   handleFileUpload() {
+    const data = JSON.stringify({filename: this.state.uploadedFile.name});
+    const file = this.state.uploadedFile;
 
+    fetch("http://localhost:3001/api/v1/complaint/generate_upload_url",
+      {
+        method: "POST",
+        body: data,
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+      })
+      .then((result) => result.json())
+      .then(result => {
+        return fetch(result.uploadUrl,
+          {
+            method: "PUT",
+            headers: {
+              'Content-Type': file.type
+            },
+            body: file
+          }
+        );
+
+      });
   }
 
   render() {
     return (
-      <form className={"Complain-form"}>
+      <div className={"Complain-form"}>
         <textarea
           className={"complain-text"}
           value={this.state.value}
@@ -56,9 +80,9 @@ class ComplainForm extends Component {
               icons={false}/>
             <span>Submit anonymously</span>
           </label>
-          <input className={"submit-btn button"} type="submit" value="Submit" onClick={this.handleSubmit} />
+          <input className={"submit-btn button"} type="submit" value="Submit" onClick={this.handleSubmit}/>
         </div>
-      </form>
+      </div>
     );
   }
 }
