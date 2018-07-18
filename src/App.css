@@ -9,7 +9,7 @@
 
 .App-header {
   background-color: #222;
-  height: 150px;
+  height: 60px;
   padding: 20px;
   color: white;
 }
@@ -18,11 +18,11 @@
   font-size: 1.5em;
 }
 
-.App-intro {
-  font-size: large;
+.App-body {
+  margin: 25px;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.grumpy {
+  height: 300px;
+  width: 300px;
 }
