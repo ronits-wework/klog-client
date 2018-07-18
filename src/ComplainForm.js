@@ -21,11 +21,18 @@ class ComplainForm extends Component {
   }
 
   handleSubmit(event) {
-    alert('An essay was submitted: ' + this.state.value);
+    alert('We feel your pain!');
     event.preventDefault();
   }
 
   render() {
+    const options = {
+      baseUrl: 'http://127.0.0.1',
+      query: {
+        warrior: 'fight'
+      }
+    };
+
     return (
       <form className={"Complain-form"} onSubmit={this.handleSubmit}>
         <textarea
@@ -41,7 +48,7 @@ class ComplainForm extends Component {
               icons={false} />
             <span>Submit anonymously</span>
           </label>
-          <input className={"submit-btn"} type="submit" value="Submit"/>
+          <input className={"submit-btn button"} type="submit" value="Submit"/>
         </div>
       </form>
     );

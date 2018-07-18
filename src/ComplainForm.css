@@ -27,9 +27,12 @@
   padding-top: 4px;
 }
 
+.button {
+  background-color: #e7e7e7;
+  padding: 8px 16px;
+}
+
 .submit-btn {
   font-size: 16px;
   border-radius: 12px;
-  background-color: #e7e7e7;
-  padding: 8px 16px;
 }
