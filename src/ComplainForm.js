@@ -9,11 +9,14 @@ class ComplainForm extends Component {
     super(props);
     this.state = {
       value: '',
-      isAnonymous: true
+      isAnonymous: true,
+      uploadedFile: null
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleFileSelected = this.handleFileSelected.bind(this);
+    this.handleFileUpload = this.handleFileUpload.bind(this);
   }
 
   handleChange(event) {
@@ -25,30 +28,35 @@ class ComplainForm extends Component {
     event.preventDefault();
   }
 
-  render() {
-    const options = {
-      baseUrl: 'http://127.0.0.1',
-      query: {
-        warrior: 'fight'
-      }
-    };
+  handleFileSelected(event) {
+    this.setState({uploadedFile: event.target.files[0]})
+  }
 
+  handleFileUpload() {
+
+  }
+
+  render() {
     return (
-      <form className={"Complain-form"} onSubmit={this.handleSubmit}>
+      <form className={"Complain-form"}>
         <textarea
           className={"complain-text"}
           value={this.state.value}
           onChange={this.handleChange}
           placeholder={"Complain to me!"}
         />
+        <div className={"file-upload"}>
+          <input type={"file"} onChange={this.handleFileSelected}/>
+          <button className={"file-upload-btn button"} onClick={this.handleFileUpload}>Upload</button>
+        </div>
         <div className={"submit-line"}>
           <label className={"anonymous-label"}>
             <Toggle
               defaultChecked={this.state.isAnonymous}
-              icons={false} />
+              icons={false}/>
             <span>Submit anonymously</span>
           </label>
-          <input className={"submit-btn button"} type="submit" value="Submit"/>
+          <input className={"submit-btn button"} type="submit" value="Submit" onClick={this.handleSubmit} />
         </div>
       </form>
     );
