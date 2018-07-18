@@ -9,9 +9,13 @@ class DashboardTable extends Component {
 
     const columns = [{
       Header: 'Text',
-      accessor: 'text' // String-based value accessors!
+      accessor: 'text'
     },
-
+      {
+        Header: 'Image',
+        accessor: 'asset_url',
+        Cell: url => <img src={url.value} height="200" width="200"/>
+      },
     ]
 
     return <ReactTable

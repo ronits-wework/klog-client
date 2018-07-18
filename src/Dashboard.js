@@ -21,7 +21,6 @@ class Dashboard extends Component {
     let complains = this.state.complains
     return (
       <div>
-        <div>This is a dashboard</div>
         <DashboardTable complains={complains}/>
       </div>
     );
