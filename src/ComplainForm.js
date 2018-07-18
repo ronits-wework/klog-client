@@ -32,7 +32,7 @@ class ComplainForm extends Component {
       }
     );
 
-    fetch("http://localhost:3001/api/v1/complaint",
+    fetch("https://klog-staging.herokuapp.com/api/v1/complaint",
       {
         method: "POST",
         body: data,
@@ -64,7 +64,7 @@ class ComplainForm extends Component {
     const data = JSON.stringify({filename: this.state.uploadedFile.name});
     const file = this.state.uploadedFile;
 
-    fetch("http://localhost:3001/api/v1/complaint/generate_upload_url",
+    fetch("https://klog-staging.herokuapp.com/api/v1/complaint/generate_upload_url",
       {
         method: "POST",
         body: data,
