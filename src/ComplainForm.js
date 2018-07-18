@@ -8,7 +8,7 @@ class ComplainForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: 'Please complain',
+      value: '',
       isAnonymous: true
     };
 
@@ -28,15 +28,20 @@ class ComplainForm extends Component {
   render() {
     return (
       <form className={"Complain-form"} onSubmit={this.handleSubmit}>
-        <textarea value={this.state.value} onChange={this.handleChange}/>
-        <div>
-          <label>
+        <textarea
+          className={"complain-text"}
+          value={this.state.value}
+          onChange={this.handleChange}
+          placeholder={"Complain to me!"}
+        />
+        <div className={"submit-line"}>
+          <label className={"anonymous-label"}>
             <Toggle
               defaultChecked={this.state.isAnonymous}
               icons={false} />
-            <span>Is Anonymous</span>
+            <span>Submit anonymously</span>
           </label>
-          <input type="submit" value="Submit"/>
+          <input className={"submit-btn"} type="submit" value="Submit"/>
         </div>
       </form>
     );
