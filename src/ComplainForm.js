@@ -41,6 +41,11 @@ class ComplainForm extends Component {
           'Content-Type': 'application/json'
         },
       }).then(result => {
+        this.setState({
+          complaintText: '',
+          isAnonymous: true,
+          uploadedFile: null
+        });
         alert('We feel your pain!');
       }
     );
