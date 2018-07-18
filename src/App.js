@@ -1,22 +1,17 @@
-import React, { Component } from 'react';
-import './App.css';
-import ComplainForm from "./ComplainForm";
-import grumpy from "./images/grumpy-bulldog-john-daniels.jpg"
+import React from 'react';
+import { BrowserRouter, Route } from 'react-router-dom';
+import Main from "./Main";
+import Test from "./Test";
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={grumpy} className={"grumpy"}/>
-          <h1 className="App-title">What's bothering you?</h1>
-        </header>
-        <div className={"App-body"}>
-          <ComplainForm/>
+export default function Layout () {
+  return (
+    <div>
+      <BrowserRouter>
+        <div className="app-container">
+          <Route exact path='/' component={Main}/>
+          <Route exact path='/test' component={Test}/>
         </div>
-      </div>
-    );
-  }
+      </BrowserRouter>
+    </div>
+  );
 }
-
-export default App;
