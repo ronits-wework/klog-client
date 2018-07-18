@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { dataProvider } from "./images/DataProvider";
+import DashboardTable from "./DashboardTable";
 
 class Dashboard extends Component {
   state = {
@@ -20,8 +21,7 @@ class Dashboard extends Component {
     let complains = this.state.complains
     return (
       <div>
-        <div>This is a dashboard</div>
-        { complains.map(item => <div>Test</div>) }
+        <DashboardTable complains={complains}/>
       </div>
     );
   }
