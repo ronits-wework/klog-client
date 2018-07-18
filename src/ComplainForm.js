@@ -8,7 +8,7 @@ class ComplainForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: '',
+      complaintText: '',
       isAnonymous: true,
       uploadedFile: null
     };
@@ -20,12 +20,32 @@ class ComplainForm extends Component {
   }
 
   handleChange(event) {
-    this.setState({value: event.target.value});
+    this.setState({complaintText: event.target.value});
   }
 
   handleSubmit(event) {
-    alert('We feel your pain!');
-    event.preventDefault();
+    const data = JSON.stringify(
+      {
+        name: '',
+        text: this.state.complaintText,
+        asset_url: ''
+      }
+    );
+
+    fetch("http://localhost:3001/api/v1/complaint",
+      {
+        method: "POST",
+        body: data,
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+      }).then(result => {
+        alert('We feel your pain!');
+      }
+    );
+
+
   }
 
   handleFileSelected(event) {
@@ -65,7 +85,7 @@ class ComplainForm extends Component {
       <div className={"Complain-form"}>
         <textarea
           className={"complain-text"}
-          value={this.state.value}
+          value={this.state.complaintText}
           onChange={this.handleChange}
           placeholder={"Complain to me!"}
         />
