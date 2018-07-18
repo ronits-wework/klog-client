@@ -10,7 +10,8 @@ class ComplainForm extends Component {
     this.state = {
       complaintText: '',
       isAnonymous: true,
-      uploadedFile: null
+      uploadedFile: null,
+      assetUrl: ''
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -28,7 +29,7 @@ class ComplainForm extends Component {
       {
         name: '',
         text: this.state.complaintText,
-        asset_url: ''
+        asset_url: this.state.assetUrl
       }
     );
 
@@ -44,7 +45,8 @@ class ComplainForm extends Component {
         this.setState({
           complaintText: '',
           isAnonymous: true,
-          uploadedFile: null
+          uploadedFile: null,
+          assetUrl: ''
         });
         alert('We feel your pain!');
       }
@@ -75,6 +77,7 @@ class ComplainForm extends Component {
       })
       .then((result) => result.json())
       .then(result => {
+        this.setState({assetUrl: result.uploadUrl});
         return fetch(result.uploadUrl,
           {
             method: "PUT",
