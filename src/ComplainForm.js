@@ -58,6 +58,9 @@ class ComplainForm extends Component {
   }
 
   handleFileUpload() {
+    if (this.state.uploadedFile == null) {
+      return;
+    }
     const data = JSON.stringify({filename: this.state.uploadedFile.name});
     const file = this.state.uploadedFile;
 
@@ -82,6 +85,9 @@ class ComplainForm extends Component {
           }
         );
 
+      })
+      .then(result => {
+        alert('File was uploaded successfully!');
       });
   }
 
