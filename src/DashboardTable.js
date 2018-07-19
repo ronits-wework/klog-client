@@ -59,7 +59,11 @@ class DashboardTable extends Component {
         accessor: 'name',
         Cell: name => {
           const real_name = name.value;
-          return real_name.length ? real_name : 'Anonymous'
+          if (real_name == null || real_name == '') {
+            return 'Anonymous';
+          } else {
+            return real_name;
+          }
         }
       },
       {
