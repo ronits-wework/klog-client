@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import './ComplainForm.css';
 import Toggle from 'react-toggle';
 import './react-toggle.css'
+import sad from "./images/sad.png"
+import neutral from "./images/neutral.png"
+import happy from "./images/happy.png"
 
 class ComplainForm extends Component {
 
@@ -11,7 +14,8 @@ class ComplainForm extends Component {
       complaintText: '',
       isAnonymous: true,
       uploadedFile: null,
-      complaintName: ''
+      complaintName: '',
+      selectedSmiley: null
     };
 
     this.fileInput = null;
@@ -29,7 +33,7 @@ class ComplainForm extends Component {
 
   toggleAnonymous = () => {
     this.setState({isAnonymous: !this.state.isAnonymous})
-  }
+  };
 
   handleSubmit(event) {
     this.handleFileUpload()
@@ -39,6 +43,7 @@ class ComplainForm extends Component {
             name: this.state.complaintName,
             text: this.state.complaintText,
             asset_url: this.state.uploadedFile ? 'https://s3.amazonaws.com/klog-complaint-images/' + this.state.uploadedFile.name : '',
+            vibe: this.state.selectedSmiley
           }
         );
 
@@ -55,7 +60,8 @@ class ComplainForm extends Component {
               complaintText: '',
               isAnonymous: true,
               uploadedFile: null,
-              complaintName: ''
+              complaintName: '',
+              selectedSmiley: null
 
             });
             this.fileInput.value = '';
@@ -110,11 +116,15 @@ class ComplainForm extends Component {
 
   handleTextChange = (e) => {
     this.setState({complaintName: e.target.value})
-  }
+  };
 
   handleFileCancel() {
     this.fileInput.value = '';
     this.setState({uploadedFile: null});
+  }
+
+  handleVibes(vibe) {
+    this.setState({selectedSmiley: vibe})
   }
 
   render() {
@@ -129,6 +139,11 @@ class ComplainForm extends Component {
         <div className={"file-upload"}>
           <input type={"file"} onChange={this.handleFileSelected} ref={ref => this.fileInput = ref}/>
           <span className={"file-upload-x-icon"} onClick={this.handleFileCancel}>X</span>
+        </div>
+        <div className={"vibes"}>
+          <img src={sad} className={"sad smiley" + (this.state.selectedSmiley == "sad" ? ' selected' : '')} onClick={() => this.handleVibes("sad")}/>
+          <img src={neutral} className={"neutral smiley" + (this.state.selectedSmiley == "neutral" ? ' selected' : '')} onClick={() => this.handleVibes("neutral")}/>
+          <img src={happy} className={"happy smiley" + (this.state.selectedSmiley == "happy" ? ' selected' : '')} onClick={() => this.handleVibes("happy")}/>
         </div>
         <div>
           { !this.state.isAnonymous && <input type='text' onChange={this.handleTextChange} placeholder={"Type your name"} className={"name-input"}/>}

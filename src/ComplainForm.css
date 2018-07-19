@@ -54,3 +54,25 @@
 .name-input {
   font-size: 16px;
 }
+
+.smiley {
+  height: 70px;
+  width: 70px;
+  opacity: 0.6;
+}
+
+.smiley.happy {
+  width: 64px;
+}
+
+.smiley.neutral {
+  width: 68px;
+}
+
+.vibes {
+  margin-bottom: 10px;
+}
+
+.smiley.selected {
+  opacity: 1;
+}
