@@ -10,7 +10,8 @@ class ComplainForm extends Component {
     this.state = {
       complaintText: '',
       isAnonymous: true,
-      uploadedFile: null
+      uploadedFile: null,
+      complaintName: ''
     };
 
     this.fileInput = null;
@@ -26,14 +27,18 @@ class ComplainForm extends Component {
     this.setState({complaintText: event.target.value});
   }
 
+  toggleAnonymous = () => {
+    this.setState({isAnonymous: !this.state.isAnonymous})
+  }
+
   handleSubmit(event) {
     this.handleFileUpload()
       .then(() => {
         const data = JSON.stringify(
           {
-            name: '',
+            name: this.state.complaintName,
             text: this.state.complaintText,
-            asset_url: this.state.uploadedFile ? 'https://s3.amazonaws.com/klog-complaint-images/' + this.state.uploadedFile.name : ''
+            asset_url: this.state.uploadedFile ? 'https://s3.amazonaws.com/klog-complaint-images/' + this.state.uploadedFile.name : '',
           }
         );
 
@@ -49,10 +54,12 @@ class ComplainForm extends Component {
             this.setState({
               complaintText: '',
               isAnonymous: true,
-              uploadedFile: null
+              uploadedFile: null,
+              complaintName: ''
+
             });
             this.fileInput.value = '';
-            alert('Thanks for complaining!');
+            alert('thanks you for that, Ronit will take care of it!');
           }
         );
       });
@@ -101,6 +108,10 @@ class ComplainForm extends Component {
 
   }
 
+  handleTextChange = (e) => {
+    this.setState({complaintName: e.target.value})
+  }
+
   handleFileCancel() {
     this.fileInput.value = '';
     this.setState({uploadedFile: null});
@@ -119,11 +130,16 @@ class ComplainForm extends Component {
           <input type={"file"} onChange={this.handleFileSelected} ref={ref => this.fileInput = ref}/>
           <span className={"file-upload-x-icon"} onClick={this.handleFileCancel}>X</span>
         </div>
+        <div>
+          { !this.state.isAnonymous && <input type='text' onChange={this.handleTextChange} placeholder={"Type your name"} className={"name-input"}/>}
+        </div>
         <div className={"submit-line"}>
           <label className={"anonymous-label"}>
             <Toggle
               defaultChecked={this.state.isAnonymous}
-              icons={false}/>
+              icons={false}
+              onChange={this.toggleAnonymous}
+            />
             <span>Submit anonymously</span>
           </label>
           <input className={"submit-btn button"} type="submit" value="Submit" onClick={this.handleSubmit}/>
