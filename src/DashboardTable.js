@@ -63,7 +63,12 @@ class DashboardTable extends Component {
     return <div>
       <ReactTable
         getTdProps={(state, rowInfo) => {
-          return {onClick: () => this.handleClick(state, rowInfo)}
+          return {
+            onClick: () => this.handleClick(state, rowInfo),
+            style: {
+              'white-space': 'unset'
+            }
+          }
         }}
         data={data}
         columns={columns}
