@@ -49,10 +49,16 @@ class DashboardTable extends Component {
   render() {
     const data = this.props.complains
 
-    const columns = [{
-      Header: 'Text',
-      accessor: 'text'
-    },
+    const columns = [
+      {
+        Header: 'Name',
+        accessor: 'name',
+        Cell: name => name.length ? name : 'Anonymous'
+      },
+      {
+        Header: 'Text',
+        accessor: 'text'
+      },
       {
         Header: 'Image',
         accessor: 'asset_url',

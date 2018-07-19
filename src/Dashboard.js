@@ -20,7 +20,9 @@ class Dashboard extends Component {
   render() {
     let complains = this.state.complains
     return (
-      <div>
+      <div className="dashboard container">
+        <h1>Dashboard</h1>
+        <a href={'/analytics'} >Go to analytics</a>
         <DashboardTable complains={complains}/>
       </div>
     );

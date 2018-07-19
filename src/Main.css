@@ -27,3 +27,12 @@
   width: 100px;
   height: 100px;
 }
+
+.container {
+  width:95%;
+  margin: 0 auto;
+}
+
+.dashboard {
+  text-align: center;
+}
