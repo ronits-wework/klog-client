@@ -73,7 +73,7 @@ class DashboardTable extends Component {
       {
         Header: 'Image',
         accessor: 'asset_url',
-        Cell: url => <img src={url.value} height="200" width="200"/>
+        Cell: url => <img src={url.value} width="120"/>
       },
     ]
 
