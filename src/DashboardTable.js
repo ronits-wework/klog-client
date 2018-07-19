@@ -5,14 +5,18 @@ import Modal from 'react-modal';
 import {dataProvider} from "./images/DataProvider";
 
 const customStyles = {
-  content : {
-    top                   : '50%',
-    left                  : '50%',
-    right                 : 'auto',
-    bottom                : 'auto',
-    marginRight           : '-50%',
-    transform             : 'translate(-50%, -50%)'
-  }
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+    textAlign: 'center'
+  },
+  compImage: {
+    display: 'block',
+  },
 };
 
 Modal.setAppElement('body')
@@ -37,7 +41,10 @@ class DashboardTable extends Component {
     const response = this.state.response;
 
     this.setState({isModalOpen: false});
-    dataProvider.post('https://klog-staging.herokuapp.com/api/v1/complaint/reply', {id: response.id, message: response.text})
+    dataProvider.post('https://klog-staging.herokuapp.com/api/v1/complaint/reply', {
+      id: response.id,
+      message: response.text
+    })
   }
 
   closeModal = () => {
@@ -97,8 +104,11 @@ class DashboardTable extends Component {
         contentLabel="Respond"
         style={customStyles}
       >
+        <img className={"compImage"} src="https://s3.amazonaws.com/tinycards/image/a2e3248975bfbf1f485eee53f527aa83"
+             width="130"/>
         <div>Respond to the poor guy</div>
         <input
+          className={"inputText"}
           type="text"
           value={this.state.response.text}
           onChange={this.handleChangeResponse}

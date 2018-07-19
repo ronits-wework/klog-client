@@ -36,3 +36,15 @@
 .dashboard {
   text-align: center;
 }
+
+.inputText {
+  display: block;
+  margin: 5px;
+  width: 165px;
+  border: 1px solid darkgrey;
+  borderRadius: 4px;
+}
+
+button {
+  background: border-box
+}
