@@ -40,6 +40,10 @@ class DashboardTable extends Component {
     dataProvider.post('https://klog-staging.herokuapp.com/api/v1/complaint/reply', {id: response.id, message: response.text})
   }
 
+  closeModal = () => {
+    this.setState({isModalOpen: false});
+  }
+
   handleChangeResponse = (e) => {
     var response = {...this.state.response}
     response.text = e.target.value;
@@ -64,6 +68,11 @@ class DashboardTable extends Component {
         accessor: 'asset_url',
         Cell: url => <img src={url.value} height="200" width="200"/>
       },
+      {
+        Header: 'Date',
+        accessor: 'created_at',
+        // Cell: date => Date.parse(date)
+      },
     ]
 
     return <div>
@@ -82,7 +91,7 @@ class DashboardTable extends Component {
 
       <Modal
         isOpen={this.state.isModalOpen}
-        onRequestClose={this.SendResponse}
+        onRequestClose={this.closeModal}
         contentLabel="Respond"
         style={customStyles}
       >
