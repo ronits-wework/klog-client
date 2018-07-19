@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { dataProvider } from "./images/DataProvider";
-import {Line as LineChart} from 'react-chartjs';
+import {Line as LineChart, Pie} from 'react-chartjs';
 import './Analytics.css';
 import WordCloud from 'react-d3-cloud';
 
@@ -8,13 +8,15 @@ class Analytics extends Component {
   state = {
     complaints: [],
     perDayData: this.getPerDayComplaints(),
-    commonWordsData: this.getCommonWords()
+    commonWordsData: this.getCommonWords(),
+    vibesData: this.getVibesData()
   };
 
   setComplaints = (complaints) => {
     const perDayData = this.getPerDayComplaints(complaints);
     const commonWordsData = this.getCommonWords(complaints);
-    this.setState({ complaints, perDayData: perDayData, commonWordsData: commonWordsData });
+    const vibesData = this.getVibesData(complaints);
+    this.setState({ complaints, perDayData: perDayData, commonWordsData: commonWordsData, vibesData: vibesData });
   };
 
   componentWillMount (){
@@ -172,6 +174,49 @@ class Analytics extends Component {
     return data;
   }
 
+  getVibesData(complaints) {
+    let data = [];
+
+    if (complaints == null) {
+      return data;
+    }
+
+    let vibesData = {};
+
+    for (let i = 0; i < complaints.length; i++) {
+      let currVibe = complaints[i].vibe;
+      if (currVibe != null) {
+        if (vibesData[currVibe] == null) {
+          vibesData[currVibe] = 0;
+        }
+        vibesData[currVibe]++;
+      }
+    }
+
+    data = [
+      {
+        value: vibesData["sad"],
+        color:"#F7464A",
+        highlight: "#FF5A5E",
+        label: "Sad"
+      },
+      {
+        value: vibesData["happy"],
+        color: "#46BFBD",
+        highlight: "#5AD3D1",
+        label: "Happy"
+      },
+      {
+        value: vibesData["neutral"],
+        color: "#FDB45C",
+        highlight: "#FFC870",
+        label: "Neutral"
+      }
+    ];
+
+    return data;
+  }
+
   render() {
 
     const fontSizeMapper = word => Math.log2(word.value) * 5;
@@ -191,6 +236,8 @@ class Analytics extends Component {
           width={300}
           height={200}
         />
+        <h2>Vibes</h2>
+        <Pie data={this.state.vibesData}/>
       </div>
     );
   }
