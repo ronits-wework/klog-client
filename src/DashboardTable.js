@@ -57,7 +57,10 @@ class DashboardTable extends Component {
       {
         Header: 'Name',
         accessor: 'name',
-        Cell: name => name.length ? name : 'Anonymous'
+        Cell: name => {
+          const real_name = name.value;
+          return real_name.length ? real_name : 'Anonymous'
+        }
       },
       {
         Header: 'Text',
@@ -67,11 +70,6 @@ class DashboardTable extends Component {
         Header: 'Image',
         accessor: 'asset_url',
         Cell: url => <img src={url.value} height="200" width="200"/>
-      },
-      {
-        Header: 'Date',
-        accessor: 'created_at',
-        // Cell: date => Date.parse(date)
       },
     ]
 
