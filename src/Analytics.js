@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { dataProvider } from "./images/DataProvider";
 import {Line as LineChart} from 'react-chartjs';
+import './Analytics.css';
 
 class Analytics extends Component {
   state = {
@@ -117,8 +118,10 @@ class Analytics extends Component {
 
   render() {
     return (
-      <div>
-        <LineChart data={this.state.perDayData.chartData} options={this.state.perDayData.chartOptions} styles={this.state.perDayData.styles} width="600" height="250"/>
+      <div className={'analytics'}>
+        <h1 className={'title'}>Complaint Analytics</h1>
+        <h2>Complaints this week</h2>
+        <LineChart data={this.state.perDayData.chartData} options={this.state.perDayData.chartOptions} styles={this.state.perDayData.styles} width="300" height="200"/>
       </div>
     );
   }
