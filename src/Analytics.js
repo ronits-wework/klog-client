@@ -120,6 +120,7 @@ class Analytics extends Component {
     return (
       <div className={'analytics'}>
         <h1 className={'title'}>Complaint Analytics</h1>
+        <a href={'/dashboard'} >Go to dashboard</a>
         <h2>Complaints this week</h2>
         <LineChart data={this.state.perDayData.chartData} options={this.state.perDayData.chartOptions} styles={this.state.perDayData.styles} width="300" height="200"/>
       </div>
